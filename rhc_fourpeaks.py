@@ -22,11 +22,11 @@ labels = ['problem', 'max_attempts', 'max_iters', 'restarts', 'run_time', 'best_
 results_list = []
 
 # leave these variable static for RHC
-attempts = 1000
+iterations = 10000
 
 # run RHC over varying options
-for iterations in (20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300, 320, 340, 360, 380, 400):
-	for restarts in (0, 15, 30, 45, 60):
+for attempts in (25, 50, 75, 100, 125, 150):
+	for restarts in (0, 25, 50, 75, 100, 125, 150):
 		start_time = time.perf_counter()
 		(_, best_fitness, curve) = mlrose.random_hill_climb(problem,
 		                                                    max_attempts=attempts,
