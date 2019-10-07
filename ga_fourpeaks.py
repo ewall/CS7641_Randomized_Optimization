@@ -22,28 +22,25 @@ labels = ['problem', 'max_attempts', 'max_iters', 'pop_size', 'mutation_prob', '
 results_list = []
 
 # leave these variable static for GA
-# attempts = 10000
-# iterations = 10000
-attempts = 10000
 iterations = np.inf
 
 # run GA over varying options
-#for attempts in (10, 20, 30, 40, 50):
-for pop_size in (200, 300, 400):
-	for mutation_prob in (0.1, 0.2, 0.3):
-		start_time = time.perf_counter()
-		(_, best_fitness, curve) = mlrose.genetic_alg(problem,
-		                                              pop_size = pop_size,
-		                                              mutation_prob = mutation_prob,
-		                                              max_attempts=attempts,
-		                                              max_iters=iterations,
-		                                              curve=True,
-		                                              random_state=SEED)
-		run_time = time.perf_counter() - start_time
-		stopped_at = curve.size
-		func_calls = problem.get_function_calls()
-		problem.reset_function_calls()  # don't forget to reset before the next run
-		results_list.append((EXPERIMENT_NAME, attempts, iterations, pop_size, mutation_prob, run_time, best_fitness, stopped_at, func_calls))
+for attempts in (10, 100, 1000, 10000):
+	for pop_size in (200, 300, 400):
+		for mutation_prob in (0.1, 0.2, 0.3):
+			start_time = time.perf_counter()
+			(_, best_fitness, curve) = mlrose.genetic_alg(problem,
+			                                              pop_size = pop_size,
+			                                              mutation_prob = mutation_prob,
+			                                              max_attempts=attempts,
+			                                              max_iters=iterations,
+			                                              curve=True,
+			                                              random_state=SEED)
+			run_time = time.perf_counter() - start_time
+			stopped_at = curve.size
+			func_calls = problem.get_function_calls()
+			problem.reset_function_calls()  # don't forget to reset before the next run
+			results_list.append((EXPERIMENT_NAME, attempts, iterations, pop_size, mutation_prob, run_time, best_fitness, stopped_at, func_calls))
 
 # compile & save results
 df_results = pd.DataFrame.from_records(results_list, columns=labels)

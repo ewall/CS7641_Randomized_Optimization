@@ -22,7 +22,7 @@ labels = ['problem', 'max_attempts', 'max_iters', 'pop_size', 'keep_pct', 'run_t
 results_list = []
 
 # leave these variable static for MIMIC
-attempts = 10000
+attempts = 500
 iterations = np.inf
 
 # run MIMIC over varying options
