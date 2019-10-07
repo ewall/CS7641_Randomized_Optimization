@@ -4,7 +4,6 @@
 # Eric W. Wallace, ewallace8-at-gatech-dot-edu, GTID 903105196
 
 import mlrose
-import numpy as np
 import os
 import pandas as pd
 import time
@@ -13,10 +12,9 @@ EXPERIMENT_NAME = "FourPeaks_SA"
 OUTPUT_DIRECTORY = 'experiments'
 SEED = 1
 
-# Four Peaks Problem: with length of 50, there are two local maxima of 50, and two optima of 94
+# Four Peaks Problem: with length of 40, there are two local maxima of 40, and two optima of 75
 fitness = mlrose.FourPeaks(t_pct=0.1)
-problem = mlrose.DiscreteOpt(length=50, fitness_fn=fitness, maximize=True, max_val=2)
-init_state = np.array(([0, 1] * 25))
+problem = mlrose.DiscreteOpt(length=40, fitness_fn=fitness, maximize=True, max_val=2)
 
 # prep dataset
 labels = ['problem', 'max_attempts', 'max_iters', 'temp', 'run_time', 'best_fitness', 'stopped_at', 'func_calls']
