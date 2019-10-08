@@ -26,10 +26,9 @@ rhc_time = time.perf_counter() - start_time
 print("RHC best fitness: {0:.0f} in {1:.4f} seconds and {2} iterations".format(rhc_best_fitness,
                                                                                rhc_time,
                                                                                len(rhc_curve)))
-# print('RHC best state:\n', rhc_best_state)
 
 # SA
-sa_max_attempts = 40
+sa_max_attempts = 200
 sa_max_iters = 10000
 sa_schedule = mlrose.ArithDecay(init_temp=1)
 start_time = time.perf_counter()
@@ -41,7 +40,6 @@ sa_best_state, sa_best_fitness, sa_curve = mlrose.simulated_annealing(problem,
                                                                       random_state=SEED)
 sa_time = time.perf_counter() - start_time
 print("SA best fitness: {0:.0f} in {1:.4f} seconds and {2} iterations".format(sa_best_fitness, sa_time, len(sa_curve)))
-# print('SA best state:\n', sa_best_state)
 
 # GA
 ga_max_attempts = 20000
@@ -58,7 +56,6 @@ ga_best_state, ga_best_fitness, ga_curve = mlrose.genetic_alg(problem,
                                                               random_state=SEED)
 ga_time = time.perf_counter() - start_time
 print("GA fitness {0:.0f} in {1:.4f} seconds and {2} iterations".format(ga_best_fitness, ga_time, len(ga_curve)))
-# print('GA best state:\n', ga_best_state)
 
 # MIMIC
 mimic_max_attempts = 20000
@@ -76,4 +73,3 @@ mimic_best_state, mimic_best_fitness, mimic_curve = mlrose.mimic(problem,
                                                                  fast_mimic=True)
 mimic_time = time.perf_counter() - start_time
 print("MIMIC fitness {0:.0f} in {1:.4f} seconds and {2} iterations".format(mimic_best_fitness, mimic_time, len(mimic_curve)))
-# print('MIMIC best state:\n', mimic_best_state)

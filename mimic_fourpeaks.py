@@ -16,9 +16,11 @@ SEED = 1
 # Four Peaks Problem: with length of 40, there are two local maxima of 40, and two optima of 75
 fitness = mlrose.FourPeaks(t_pct=0.1)
 problem = mlrose.DiscreteOpt(length=40, fitness_fn=fitness, maximize=True, max_val=2)
+perfect_score = 75
 
 # prep dataset
-labels = ['problem', 'max_attempts', 'max_iters', 'pop_size', 'keep_pct', 'run_time', 'best_fitness', 'stopped_at', 'func_calls']
+labels = ['problem', 'max_attempts', 'max_iters', 'pop_size', 'keep_pct',
+          'run_time', 'best_fitness', 'stopped_at', 'func_calls']
 results_list = []
 
 # leave these variable static for MIMIC
@@ -26,7 +28,7 @@ attempts = 500
 iterations = np.inf
 
 # run MIMIC over varying options
-#for iterations in (10, 20, 30):
+halt_loop = False
 for pop_size in (200, 500, 750, 1000, 1500):
 	for keep_pct in (0.25, 0.5, 0.75):
 		start_time = time.perf_counter()
@@ -42,11 +44,16 @@ for pop_size in (200, 500, 750, 1000, 1500):
 		stopped_at = curve.size
 		func_calls = problem.get_function_calls()
 		problem.reset_function_calls()  # don't forget to reset before the next run
-		results_list.append((EXPERIMENT_NAME, attempts, iterations, pop_size, keep_pct, run_time, best_fitness, stopped_at, func_calls))
+		results_list.append((EXPERIMENT_NAME, attempts, iterations, pop_size, keep_pct,
+		                     run_time, best_fitness, stopped_at, func_calls))
+		if best_fitness == perfect_score:
+			halt_loop = True
+			break
+	if halt_loop:
+		break
 
 # compile & save results
 df_results = pd.DataFrame.from_records(results_list, columns=labels)
-#df_results.to_csv(os.path.join(OUTPUT_DIRECTORY, EXPERIMENT_NAME + '.csv'))
 df_results.to_excel(os.path.join(OUTPUT_DIRECTORY, EXPERIMENT_NAME + '.xlsx'))
 df_results.to_pickle(os.path.join(OUTPUT_DIRECTORY, EXPERIMENT_NAME + '.pickle'))
 
