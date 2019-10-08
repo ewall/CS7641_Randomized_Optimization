@@ -4,7 +4,6 @@
 # Eric W. Wallace, ewallace8-at-gatech-dot-edu, GTID 903105196
 
 import mlrose
-import numpy as np
 import os
 import pandas as pd
 import time
@@ -21,7 +20,8 @@ fitness = mlrose.Knapsack(weights, values, max_weight_pct)
 problem = mlrose.DiscreteOpt(length=len(values), fitness_fn=fitness, maximize=True, max_val=2)
 
 # prep dataset
-labels = ['problem', 'max_attempts', 'max_iters', 'pop_size', 'mutation_prob', 'run_time', 'best_fitness', 'stopped_at', 'func_calls']
+labels = ['problem', 'max_attempts', 'max_iters', 'pop_size', 'mutation_prob',
+          'run_time', 'best_fitness', 'stopped_at', 'func_calls']
 results_list = []
 
 # leave these variable static for GA
@@ -43,11 +43,11 @@ for iterations in (1, 2, 3, 4, 5):
 			stopped_at = curve.size
 			func_calls = problem.get_function_calls()
 			problem.reset_function_calls()  # don't forget to reset before the next run
-			results_list.append((EXPERIMENT_NAME, attempts, iterations, pop_size, mutation_prob, run_time, best_fitness, stopped_at, func_calls))
+			results_list.append((EXPERIMENT_NAME, attempts, iterations, pop_size, mutation_prob,
+			                     run_time, best_fitness, stopped_at, func_calls))
 
 # compile & save results
 df_results = pd.DataFrame.from_records(results_list, columns=labels)
-#df_results.to_csv(os.path.join(OUTPUT_DIRECTORY, EXPERIMENT_NAME + '.csv'))
 df_results.to_excel(os.path.join(OUTPUT_DIRECTORY, EXPERIMENT_NAME + '.xlsx'))
 df_results.to_pickle(os.path.join(OUTPUT_DIRECTORY, EXPERIMENT_NAME + '.pickle'))
 
