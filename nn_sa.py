@@ -4,6 +4,7 @@
 # Eric W. Wallace, ewallace8-at-gatech-dot-edu, GTID 903105196
 
 import mlrose
+import numpy as np
 import time
 from scipy.sparse import csr_matrix
 from sklearn.datasets import load_svmlight_files
@@ -27,10 +28,10 @@ nn_model1 = mlrose.NeuralNetwork(hidden_nodes=[5],
                                  learning_rate=0.1,
                                  early_stopping=True,
                                  random_state=SEED,
-                                 algorithm='random_hill_climb',
-                                 max_iters=10000,
-                                 max_attempts=30,
-                                 restarts=10)
+                                 algorithm = 'simulated_annealing',
+                                 max_iters = np.inf,
+                                 max_attempts=100,
+                                 schedule=mlrose.ArithDecay(init_temp=1))
 nn_model1.fit(X_train, y_train)
 run_time = time.perf_counter() - start_time
 
