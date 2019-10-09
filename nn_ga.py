@@ -11,7 +11,7 @@ from scipy.sparse import csr_matrix
 from sklearn.datasets import load_svmlight_files
 from sklearn.metrics import accuracy_score, cohen_kappa_score, confusion_matrix
 
-EXPERIMENT_NAME = "NN_SA"
+EXPERIMENT_NAME = "NN_GA"
 OUTPUT_DIRECTORY = 'experiments'
 SEED = 1
 
@@ -23,13 +23,14 @@ y_train[y_train < 0] = 0  # change -1's to zeros so sklearn recongizes this as b
 y_test[y_test < 0] = 0
 
 # prep output data
-labels = ['problem', 'max_attempts', 'max_iters', 'temp', 'run_time', 'error', 'kappa']
+labels = ['problem', 'max_attempts', 'max_iters', 'pop_size', 'mutation_prob', 'run_time', 'error', 'kappa']
 results_list = []
 
 # build model
-for iterations in (10000, 50000):
-	for attempts in (100, 300):
-		for temp in (0.01, 0.1, 1, 10):
+iterations = 10000
+for attempts in (10, 100):
+	for pop_size in (100, 250, 500):
+		for mutation_prob in (0.1, 0.2, 0.3):
 			start_time = time.perf_counter()
 			nn_model1 = mlrose.NeuralNetwork(hidden_nodes=[5],
 			                                 activation='sigmoid',
@@ -38,10 +39,11 @@ for iterations in (10000, 50000):
 			                                 learning_rate=0.1,
 			                                 early_stopping=True,
 			                                 random_state=SEED,
-			                                 algorithm='simulated_annealing',
+			                                 algorithm='genetic_alg',
 			                                 max_iters=iterations,
 			                                 max_attempts=attempts,
-			                                 schedule=mlrose.ArithDecay(init_temp=temp))
+			                                 pop_size=pop_size,
+			                                 mutation_prob=mutation_prob)
 			nn_model1.fit(X_train, y_train)
 			run_time = time.perf_counter() - start_time
 
@@ -59,12 +61,14 @@ for iterations in (10000, 50000):
 			y_test_confusion = confusion_matrix(y_test, y_test_pred)  # , labels=target_names)
 			print("\nRUN: max_attempts=", attempts,
 			      "\nmax_iters=", iterations,
-			      "\ntemp=", temp,
+			      "\npop_size=", pop_size,
+			      "\nmutation_prob=", mutation_prob,
 			      "\nerror=", y_test_error,
 			      "\nkappa=", y_test_kappa,
 			      "\nconfusion matrix=\n", y_test_confusion,
 			      "\nRUN TIME=", run_time)
-			results_list.append((EXPERIMENT_NAME, attempts, iterations, temp, run_time, y_test_error, y_test_kappa))
+			results_list.append((EXPERIMENT_NAME, attempts, iterations, pop_size, mutation_prob,
+			                     run_time, y_test_error, y_test_kappa))
 
 # compile & save results
 df_results = pd.DataFrame.from_records(results_list, columns=labels)
