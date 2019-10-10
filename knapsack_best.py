@@ -32,9 +32,9 @@ print("RHC best fitness: {0:.0f} in {1:.4f} seconds and {2} iterations".format(r
 # print('RHC best state:\n', rhc_best_state)
 
 # SA
-sa_max_attempts = 10
+sa_max_attempts = 500
 sa_max_iters = np.inf
-sa_schedule = mlrose.ArithDecay(init_temp=1)
+sa_schedule = mlrose.ArithDecay(init_temp=10)
 start_time = time.perf_counter()
 sa_best_state, sa_best_fitness, sa_curve = mlrose.simulated_annealing(problem,
                                                                       schedule=sa_schedule,

@@ -19,6 +19,7 @@ values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 max_weight_pct = 0.6
 fitness = mlrose.Knapsack(weights, values, max_weight_pct)
 problem = mlrose.DiscreteOpt(length=len(values), fitness_fn=fitness, maximize=True, max_val=2)
+perfect_score = 45
 
 # prep dataset
 labels = ['problem', 'max_attempts', 'max_iters', 'temp',
@@ -30,8 +31,9 @@ iterations = np.inf
 decay = mlrose.ArithDecay
 
 # run SA over varying options
-for attempts in (10, 20, 30):
-	for temp in (1, 10, 100, 1000):
+halt_loop = False
+for attempts in (50, 500, 1000, 10000, 20000):
+	for temp in (10, 100, 1000):
 		start_time = time.perf_counter()
 		(_, best_fitness, curve) = mlrose.simulated_annealing(problem,
 															  schedule=decay(init_temp=temp),
@@ -45,6 +47,11 @@ for attempts in (10, 20, 30):
 		problem.reset_function_calls()  # don't forget to reset before the next run
 		results_list.append((EXPERIMENT_NAME, attempts, iterations, temp,
 		                     run_time, best_fitness, stopped_at, func_calls))
+		if best_fitness == perfect_score:
+			halt_loop = True
+			break
+	if halt_loop:
+		break
 
 # compile & save results
 df_results = pd.DataFrame.from_records(results_list, columns=labels)
