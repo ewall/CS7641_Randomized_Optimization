@@ -9,7 +9,7 @@ import os
 import pandas as pd
 import time
 
-EXPERIMENT_NAME = "FourPeaks_MIMIC"
+EXPERIMENT_NAME = "FourPeaks_MIMIC_slow"
 OUTPUT_DIRECTORY = 'experiments'
 SEED = 1
 
@@ -29,8 +29,8 @@ iterations = np.inf
 
 # run MIMIC over varying options
 halt_loop = False
-for pop_size in (200, 500, 750, 1000, 1500):
-	for keep_pct in (0.25, 0.5, 0.75):
+for keep_pct in (0.2, 0.4, 0.6, 0.8):
+	for pop_size in (2000, 2500):
 		start_time = time.perf_counter()
 		(_, best_fitness, curve) = mlrose.mimic(problem,
 		                                        pop_size = pop_size,
@@ -39,13 +39,15 @@ for pop_size in (200, 500, 750, 1000, 1500):
 		                                        max_iters=iterations,
 		                                        curve=True,
 		                                        random_state=SEED,
-		                                        fast_mimic=True)
+		                                        fast_mimic=False)  # <-- disabled fast_mimic for testing
 		run_time = time.perf_counter() - start_time
 		stopped_at = curve.size
 		func_calls = problem.get_function_calls()
 		problem.reset_function_calls()  # don't forget to reset before the next run
 		results_list.append((EXPERIMENT_NAME, attempts, iterations, pop_size, keep_pct,
 		                     run_time, best_fitness, stopped_at, func_calls))
+		print((EXPERIMENT_NAME, attempts, iterations, pop_size, keep_pct,
+		       run_time, best_fitness, stopped_at, func_calls))
 		if best_fitness == perfect_score:
 			halt_loop = True
 			break
@@ -58,5 +60,5 @@ df_results.to_excel(os.path.join(OUTPUT_DIRECTORY, EXPERIMENT_NAME + '.xlsx'))
 df_results.to_pickle(os.path.join(OUTPUT_DIRECTORY, EXPERIMENT_NAME + '.pickle'))
 
 # minimal output
-print("# Best Run:")
+print("\n# Best Run:")
 print(df_results.loc[df_results['best_fitness'].idxmax()])

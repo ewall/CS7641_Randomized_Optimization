@@ -79,10 +79,10 @@ for complexity in (10, 20, 30, 40):
 	results_list.append(run_result)
 
 	# MIMIC
-	mimic_max_attempts = 20000
+	mimic_max_attempts = 500
 	mimic_max_iters = np.inf
-	mimic_pop_size = 750
-	mimic_keep_pct = 0.5
+	mimic_pop_size = 2000
+	mimic_keep_pct = 0.2
 	start_time = time.perf_counter()
 	_, best_fitness, curve = mlrose.mimic(problem,
 	                                      pop_size=mimic_pop_size,
