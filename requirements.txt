@@ -1,0 +1,14 @@
+certifi==2019.9.11
+et-xmlfile==1.0.1
+jdcal==1.4.1
+joblib==0.13.2
+-e git+git@github.com:ewall/mlrose.git@75e40072d24d45c0ee18831ca5e68a8b858a7987#egg=mlrose_ewall
+numpy==1.17.2
+openpyxl==3.0.0
+pandas==0.25.1
+python-dateutil==2.8.0
+pytz==2019.2
+scikit-learn==0.21.3
+scipy==1.3.1
+six==1.12.0
+sklearn==0.0
