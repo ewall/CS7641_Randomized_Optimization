@@ -17,12 +17,14 @@ max_weight_pct = 0.6
 fitness = mlrose.Knapsack(weights, values, max_weight_pct)
 perfect_score = 45
 
+counter = 0
 start_time = time.perf_counter()
 for s in product([0,1], repeat=10):
+	counter += 1
 	f = fitness.evaluate(np.array(s))
 	print(f, s)
 	if f == perfect_score:
 		break
 run_time = time.perf_counter() - start_time
 
-print("\n Solved in", run_time, "seconds.")
+print("\n Solved in", run_time, "seconds with", counter, "iterations/function calls.")
