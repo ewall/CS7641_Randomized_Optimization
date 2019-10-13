@@ -15,16 +15,19 @@ weights = [10, 5, 2, 8, 15, 11, 4, 7, 1, 20]
 values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 max_weight_pct = 0.6
 fitness = mlrose.Knapsack(weights, values, max_weight_pct)
-perfect_score = 45
+# perfect_score = 45
 
 counter = 0
+best_fitness = 0
 start_time = time.perf_counter()
 for s in product([0,1], repeat=10):
 	counter += 1
 	f = fitness.evaluate(np.array(s))
+	if f > best_fitness:
+		best_fitness = f
 	print(f, s)
-	if f == perfect_score:
-		break
+	# if f == perfect_score:
+	# 	break
 run_time = time.perf_counter() - start_time
 
-print("\n Solved in", run_time, "seconds with", counter, "iterations/function calls.")
+print("\nBest fitness", best_fitness, "found in", run_time, "seconds with", counter, "iterations/function calls.")
