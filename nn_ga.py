@@ -28,15 +28,15 @@ results_list = []
 
 # build model
 iterations = 10000
-for attempts in (10, 100):
-	for pop_size in (100, 250, 500):
-		for mutation_prob in (0.1, 0.2, 0.3):
+for attempts in (100,):
+	for pop_size in (250,):
+		for mutation_prob in (0.1,):
 			start_time = time.perf_counter()
-			nn_model1 = mlrose.NeuralNetwork(hidden_nodes=[5],
+			nn_model1 = mlrose.NeuralNetwork(hidden_nodes=None,
 			                                 activation='sigmoid',
 			                                 bias=False,
 			                                 is_classifier=True,
-			                                 learning_rate=0.1,
+			                                 learning_rate=0.25,
 			                                 early_stopping=True,
 			                                 random_state=SEED,
 			                                 algorithm='genetic_alg',

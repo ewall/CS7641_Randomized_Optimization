@@ -27,15 +27,15 @@ labels = ['problem', 'max_attempts', 'max_iters', 'restarts', 'run_time', 'error
 results_list = []
 
 # build model
-for iterations in (1000, 10000):
-	for attempts in (10, 25):
-		for restarts in (10, 50):
+for iterations in (10000,):
+	for attempts in (25,):
+		for restarts in (10,):
 			start_time = time.perf_counter()
-			nn_model1 = mlrose.NeuralNetwork(hidden_nodes=[5],
+			nn_model1 = mlrose.NeuralNetwork(hidden_nodes=None,
 			                                 activation='sigmoid',
 			                                 bias=False,
 			                                 is_classifier=True,
-			                                 learning_rate=0.1,
+			                                 learning_rate=0.25,
 			                                 early_stopping=True,
 			                                 random_state=SEED,
 			                                 algorithm='random_hill_climb',

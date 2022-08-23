@@ -27,15 +27,15 @@ labels = ['problem', 'max_attempts', 'max_iters', 'temp', 'run_time', 'error', '
 results_list = []
 
 # build model
-for iterations in (10000, 50000):
-	for attempts in (100, 300):
-		for temp in (0.01, 0.1, 1, 10):
+for iterations in (50000,):
+	for attempts in (100,):
+		for temp in (0.01,):
 			start_time = time.perf_counter()
-			nn_model1 = mlrose.NeuralNetwork(hidden_nodes=[5],
+			nn_model1 = mlrose.NeuralNetwork(hidden_nodes=None,
 			                                 activation='sigmoid',
 			                                 bias=False,
 			                                 is_classifier=True,
-			                                 learning_rate=0.1,
+			                                 learning_rate=0.25,
 			                                 early_stopping=True,
 			                                 random_state=SEED,
 			                                 algorithm='simulated_annealing',
