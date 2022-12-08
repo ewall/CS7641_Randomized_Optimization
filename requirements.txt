@@ -1,4 +1,4 @@
-certifi==2019.9.11
+certifi==2022.12.7
 et-xmlfile==1.0.1
 jdcal==1.4.1
 joblib==0.13.2
